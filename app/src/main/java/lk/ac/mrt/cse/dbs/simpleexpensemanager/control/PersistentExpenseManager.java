@@ -18,16 +18,20 @@ package lk.ac.mrt.cse.dbs.simpleexpensemanager.control;
 
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.AccountDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.TransactionDAO;
-import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InMemoryAccountDAO;
-import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InMemoryTransactionDAO;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InDBAccountDAO;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.impl.InDBTransactionDAO;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Account;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.ui.DBHelper;
 
 /**
  *
  */
-public class InMemoryDemoExpenseManager extends ExpenseManager {
+public class PersistentExpenseManager extends ExpenseManager {
+    private final DBHelper dbHelper;
 
-    public InMemoryDemoExpenseManager() {
+    public PersistentExpenseManager(DBHelper dbHelper) {
+        super(dbHelper);
+        this.dbHelper = dbHelper;
         setup();
     }
 
@@ -35,10 +39,10 @@ public class InMemoryDemoExpenseManager extends ExpenseManager {
     public void setup() {
         /*** Begin generating dummy data for In-Memory implementation ***/
 
-        TransactionDAO inMemoryTransactionDAO = new InMemoryTransactionDAO();
+        TransactionDAO inMemoryTransactionDAO = new InDBTransactionDAO(this.dbHelper);
         setTransactionsDAO(inMemoryTransactionDAO);
 
-        AccountDAO inMemoryAccountDAO = new InMemoryAccountDAO();
+        AccountDAO inMemoryAccountDAO = new InDBAccountDAO(this.dbHelper);
         setAccountsDAO(inMemoryAccountDAO);
 
         // dummy data

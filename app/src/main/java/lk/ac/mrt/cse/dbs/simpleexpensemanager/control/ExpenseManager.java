@@ -28,12 +28,19 @@ import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.exception.InvalidAccountExcep
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Account;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.ExpenseType;
 import lk.ac.mrt.cse.dbs.simpleexpensemanager.data.model.Transaction;
+import lk.ac.mrt.cse.dbs.simpleexpensemanager.ui.DBHelper;
 
 /**
  * The ExpenseManager acts as the mediator when performing transactions. This is an abstract class with an abstract
  * method to setup the DAO objects depending on the implementation.
  */
 public abstract class ExpenseManager implements Serializable {
+    private DBHelper dbHelper;
+
+    public ExpenseManager(DBHelper dbHelper) {
+        this.dbHelper = dbHelper;
+    }
+
     private AccountDAO accountsHolder;
     private TransactionDAO transactionsHolder;
 
